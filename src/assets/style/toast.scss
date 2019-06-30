@@ -1,0 +1,18 @@
+@media screen and (max-width: $sm) {
+  .Toastify__toast-body {
+    font-size: 12px;
+  }
+  .Toastify__toast-container {
+    max-width: 90%;
+  }
+  .Toastify__toast-container--bottom-right {
+    bottom: 2em;
+    right: 2%;
+  }
+}
+@media screen and (max-width: $xs) {
+  .Toastify__toast-container {
+    right: 5%;
+    left: unset;
+  }
+}

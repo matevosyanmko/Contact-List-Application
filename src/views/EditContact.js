@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
-import { toast } from 'react-toastify';
+// redux modules
 import { connect } from 'react-redux';
 import { ActionCreatorPUT } from '../store/ActionCreators/actionCreatorPUT';
 import { ContactById } from '../store/endPoints';
 import { UPDATE_CONTACT, ADD_CONTACT } from '../store/actionTypes';
 import { ActionCreator } from '../store/ActionCreators/actionCreator';
 import { ActionCreatorGET } from '../store/ActionCreators/actionCreatorGET';
-import Img from 'react-image';
-import Loader from '../assets/images/loader.svg';
+// assets
+import { toast } from 'react-toastify';
 import PageNotFound from '../views/PageNotFound';
-
-const getItemFromList = (list, id) => {
-  let ContactsArray = [];
-  list.map((item) => ContactsArray.push(...item.list));
-  const CurrentContact = ContactsArray.find((contact) => contact.id === id);
-  return CurrentContact;
-};
+// utils
+import { Label, GetValueByName, GetItemFromList, LoaderIcon } from '../utils';
 
 class EditContact extends Component {
   state = { pageNotFound: false };
   componentDidMount = async () => {
     const { Contacts, dispatch, match } = this.props;
     const { id } = match.params;
-    const CurrentContact = await getItemFromList(Contacts, id);
+    const CurrentContact = await GetItemFromList(Contacts, id);
     if (!CurrentContact) {
       const resp = await dispatch(ActionCreatorGET(ContactById(id), ADD_CONTACT));
       if (resp.payload._meta.code !== 200) {
@@ -30,26 +25,19 @@ class EditContact extends Component {
       }
     }
   };
-  getValue = (name) => {
-    if (name === 'status' || name === 'gender') {
-      return document.querySelector(`input[name='${name}']:checked`).value;
-    } else {
-      return document.getElementsByName(name)[0].value;
-    }
-  };
 
   submit = (event) => {
     event.preventDefault();
     const data = {
-      first_name: this.getValue('first_name'),
-      last_name: this.getValue('last_name'),
-      dob: this.getValue('dob'),
-      email: this.getValue('email'),
-      gender: this.getValue('gender'),
-      phone: this.getValue('phone'),
-      status: this.getValue('status'),
-      website: this.getValue('website'),
-      address: this.getValue('address')
+      first_name: GetValueByName('first_name'),
+      last_name: GetValueByName('last_name'),
+      dob: GetValueByName('dob'),
+      email: GetValueByName('email'),
+      gender: GetValueByName('gender'),
+      phone: GetValueByName('phone'),
+      status: GetValueByName('status'),
+      website: GetValueByName('website'),
+      address: GetValueByName('address')
     };
     console.log(data);
     const { dispatch, match } = this.props;
@@ -74,73 +62,23 @@ class EditContact extends Component {
       return <PageNotFound />;
     }
     // check contact item in strore
-    const CurrentContact = getItemFromList(Contacts, id);
+    const CurrentContact = GetItemFromList(Contacts, id);
     if (!CurrentContact) {
-      return <Img src={Loader} />;
+      return LoaderIcon;
     }
-    // const CurrentContact = ContactsArray.find((contact) => contact.id === id);
     const { first_name, last_name, dob, email, gender, phone, status, website, address } = CurrentContact;
-    const avatar = CurrentContact._links.avatar.href;
-
     return (
-      <form className="editForm" onSubmit={this.submit}>
+      <form className="layout" onSubmit={this.submit}>
         <h4 children="Edit Contact" />
-        <label>
-          First Name
-          <input defaultValue={first_name} type="text" name="first_name" />
-        </label>
-        <label>
-          Last Name
-          <input defaultValue={last_name} type="text" name="last_name" />
-        </label>
-        <label>
-          Gender
-          <div className="inline_radio">
-            <p>
-              Male <input type="radio" name="gender" value="male" defaultChecked={gender === 'male'} />
-            </p>
-            <p>
-              Female
-              <input type="radio" name="gender" value="female" defaultChecked={gender === 'female'} />{' '}
-            </p>
-          </div>
-        </label>
-
-        <label>
-          Email
-          <input defaultValue={email} type="email" name="email" />
-        </label>
-
-        <label>
-          Phone
-          <input defaultValue={phone} type="phone" name="phone" />
-        </label>
-        <label>
-          Website
-          <input defaultValue={website} type="url" name="website" />
-        </label>
-        <label>
-          Status
-          <div className="inline_radio">
-            <p>
-              active <input type="radio" name="status" value="active" defaultChecked={status === 'active'} />
-            </p>
-            <p>
-              inactive
-              <input type="radio" name="status" value="inactive" defaultChecked={status === 'inactive'} />{' '}
-            </p>
-          </div>
-        </label>
-
-        <label>
-          Address
-          <input defaultValue={address} type="text" name="address" />
-        </label>
-        <label>
-          Date of birth
-          <input defaultValue={dob} type="date" name="dob" />
-        </label>
-
+        <Label type="text" name="first_name" placeholder="First Name" defaultValue={first_name} />
+        <Label type="text" name="last_name" placeholder="Last Name" defaultValue={last_name} />
+        <Label type="radio" name="gender" placeholder="Gender" radioObject={{ first: { name: 'Male', value: 'male' }, second: { name: 'Female', value: 'female' } }} defaultValue={gender} />
+        <Label type="email" name="email" placeholder="Email" defaultValue={email} />
+        <Label type="phone" name="phone" placeholder="Phone" defaultValue={phone} />
+        <Label type="url" name="website" placeholder="Website" defaultValue={website} />
+        <Label type="radio" name="status" placeholder="Status" radioObject={{ first: { name: 'Active', value: 'active' }, second: { name: 'Inactive', value: 'inactive' } }} defaultValue={status} />
+        <Label type="text" name="address" placeholder="Address" defaultValue={address} />
+        <Label type="date" name="dob" placeholder="Date of birth" defaultValue={dob} />
         <button type="submit" children="Submit Changes" />
       </form>
     );

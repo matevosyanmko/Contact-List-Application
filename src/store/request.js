@@ -3,19 +3,13 @@ class Request {
     this.mainURL = 'https://gorest.co.in/public-api';
     this.accesToken = 'WpHnHsqVIYidLBU-Atsfp09JNgUinSCWh718';
   }
-  get(url) {
-    return this.sendRequest('GET', url, null, null);
-  }
+  get = (url) => this.sendRequest('GET', url, null, null);
 
-  postJson(url, data) {
-    return this.sendRequest('POST', url, JSON.stringify(data), 'application/json');
-  }
-  put(url, data, type = null) {
-    return this.sendRequest('PUT', url, JSON.stringify(data), 'application/json');
-  }
-  delete(url) {
-    return this.sendRequest('DELETE', url, null);
-  }
+  post = (url, data) => this.sendRequest('POST', url, JSON.stringify(data), 'application/json');
+
+  put = (url, data, type = null) => this.sendRequest('PUT', url, JSON.stringify(data), 'application/json');
+
+  delete = (url) => this.sendRequest('DELETE', url, null);
 
   sendRequest(method, url, data, contentType) {
     contentType = contentType ? contentType : 'application/x-www-form-urlencoded';

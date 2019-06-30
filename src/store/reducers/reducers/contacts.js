@@ -15,7 +15,6 @@ export default (state = [], action) => {
       return state.map((data) => {
         return { ...data, list: data.list.filter((item) => item.id !== payload) };
       });
-    // return state.filter((item) => item.id !== payload);
     default:
       return state;
   }

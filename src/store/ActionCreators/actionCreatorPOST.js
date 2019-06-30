@@ -3,7 +3,7 @@ import Request from '../request';
 
 // fetch function
 const PostData = (api, data) => {
-  return Request.postJson(api, data);
+  return Request.post(api, data);
 };
 
 // action creator

@@ -1,0 +1,20 @@
+.Circle {
+  position: fixed;
+  font-size: 18px;
+  font-weight: bolder;
+  color: #fff;
+  width: 50px;
+  border-radius: 50%;
+  height: 50px;
+  @include perfectCenter();
+  &.PageNumber {
+    top: 15px;
+    right: 20px;
+    background: $secondary;
+  }
+  &.BottomRight {
+    bottom: 15px;
+    right: 15px;
+    background: $primary;
+  }
+}

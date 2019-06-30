@@ -1,13 +1,14 @@
 // declare variables
-// $brandColor: rgba(24, 144, 255, 0.8);
-$publicMenuHeight: 50px;
-$wrapperHeight: calc(100vh - #{$publicMenuHeight});
-
-$scollBarWidth: 17px;
+// breakpoints
+$lg: 1200px;
+$md: 992px;
+$sm: 796px;
+$xs: 480px;
 // colors
 $primary: rgb(76, 175, 80);
 $secondary: rgb(52, 152, 219);
 $danger: rgb(231, 76, 60);
+
 // mixins
 @mixin shadow {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
@@ -19,6 +20,7 @@ $danger: rgb(231, 76, 60);
   flex-direction: $dir;
   flex-wrap: $wrap;
 }
+
 @mixin perfectCenter {
   display: flex;
   justify-content: center;

@@ -5,17 +5,9 @@ import { ActionCreatorGET } from '../store/ActionCreators/actionCreatorGET';
 import { ActionCreator } from '../store/ActionCreators/actionCreator';
 import { ADD_CONTACT } from '../store/actionTypes';
 import { ContactById } from '../store/endPoints';
-import Img from 'react-image';
-import Loader from '../assets/images/loader.svg';
 import AddContact from './AddContact';
 import PageNotFound from '../views/PageNotFound';
-
-const getItemFromList = (list, id) => {
-  let ContactsArray = [];
-  list.map((item) => ContactsArray.push(...item.list));
-  const CurrentContact = ContactsArray.find((contact) => contact.id === id);
-  return CurrentContact;
-};
+import { GetItemFromList, InfoField, LoaderIcon, Image } from '../utils';
 
 class ContactItem extends Component {
   state = { pageNotFound: false };
@@ -23,7 +15,7 @@ class ContactItem extends Component {
     const { Contacts, dispatch, match } = this.props;
     const { id } = match.params;
     if (id !== 'new') {
-      const CurrentContact = await getItemFromList(Contacts, id);
+      const CurrentContact = await GetItemFromList(Contacts, id);
       if (!CurrentContact) {
         const resp = await dispatch(ActionCreatorGET(ContactById(id), ADD_CONTACT));
         if (resp.payload._meta.code !== 200) {
@@ -43,43 +35,24 @@ class ContactItem extends Component {
     if (pageNotFound) {
       return <PageNotFound />;
     }
-    // check contact item in strore
-    const CurrentContact = getItemFromList(Contacts, id);
+    const CurrentContact = GetItemFromList(Contacts, id);
     if (!CurrentContact) {
-      return <Img src={Loader} />;
+      return LoaderIcon;
     }
     const { first_name, last_name, dob, email, gender, phone, status, website } = CurrentContact;
     const avatar = CurrentContact._links.avatar.href;
 
     return (
-      <div className="card">
-        <Img src={avatar} alt="Avatar" loader={<img src={Loader} alt="" />} />
-        <div className="container">
+      <div className="card layout">
+        <Image src={avatar} />
+        <div className="card_container">
           <h2 children={`${first_name} ${last_name}`} />
-          <p>
-            <b children="Gender" />
-            <span children={gender} />
-          </p>
-          <p>
-            <b children="Phone" />
-            <span children={phone} />
-          </p>
-          <p>
-            <b children="Website" />
-            <span children={website} />
-          </p>
-          <p>
-            <b children="Status" />
-            <span children={status} />
-          </p>
-          <p>
-            <b children="Email" />
-            <span children={email} />
-          </p>
-          <p>
-            <b children="Date of birth" />
-            <span children={dob} />
-          </p>
+          <InfoField name="Gender" value={gender} />
+          <InfoField name="Phone" value={phone} />
+          <InfoField name="Website" value={website} />
+          <InfoField name="Status" value={status} />
+          <InfoField name="Email" value={email} />
+          <InfoField name="Date" value={dob} />
         </div>
       </div>
     );

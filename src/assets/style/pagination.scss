@@ -1,0 +1,37 @@
+.pagination {
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 1%;
+  width: 98%;
+  top: calc(50% - 20px);
+
+  .pagination_prev {
+    position: absolute;
+    left: 10px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .pagination_next {
+    position: absolute;
+    right: 10px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+@media screen and (max-width: $sm) {
+  .pagination {
+    position: static;
+    height: 75px;
+    width: 140px;
+    @include flex(space-around);
+    .pagination_next,
+    .pagination_prev {
+      position: static;
+    }
+  }
+}

@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 // asssets
 import IosOpenOutline from 'react-ionicons/lib/IosOpenOutline';
 import IosCreateOutline from 'react-ionicons/lib/IosCreateOutline';
-import { Link } from 'react-router-dom';
 import IosCloseCircleOutline from 'react-ionicons/lib/IosCloseCircleOutline';
-import Img from 'react-image';
-import Loader from '../assets/images/loader.svg';
+// utils
+import { Image } from '../utils';
 
 const Table = (props) => {
   const { thead, tbody, removeContact } = props;
@@ -21,7 +21,7 @@ const Table = (props) => {
       <tbody>
         {tbody.map((item, key) => (
           <tr key={key}>
-            <td children={<Img src={item._links.avatar.href} loader={<img src={Loader} />} />} />
+            <td children={<Image src={item._links.avatar.href} />} />
             <td children={item.first_name} />
             <td children={item.last_name} />
             <td children={item.phone} />

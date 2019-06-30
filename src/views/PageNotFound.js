@@ -1,6 +1,6 @@
 import React from 'react';
-import Img from 'react-image';
 import Image404 from '../assets/images/404.svg';
+import { Image } from '../utils';
 
-const PageNotFound = () => <Img src={Image404} alt="" />;
+const PageNotFound = () => <Image src={Image404}  />;
 export default PageNotFound;
