@@ -1,43 +1,20 @@
 table {
-  // position: absolute;
   z-index: 1;
   @include shadow();
   border-collapse: collapse;
   background: #fff;
   margin: 10px auto 0;
   position: relative;
-  max-width: calc(100% - 200px);
-  min-width: 320px;
-  th,
-  td {
-    height: 50px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    min-width: 100px;
-    max-width: 300px;
-    width: 14%;
-    font-size: 14px;
-    text-align: left;
-    vertical-align: middle;
-    word-break: break-all;
-  }
-  tr {
-    display: table;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  th {
-    background-color: $primary;
-    color: white;
-  }
+  max-width: calc(100% - 170px);
   thead {
     display: table;
     width: 100%;
   }
+
   tbody {
     transition: all 0.5s ease-in-out;
     display: block;
-    max-height: calc(100vh - 92px);
+    max-height: calc(100vh - 75px);
     overflow-y: scroll;
     tr:nth-child(even) {
       background-color: #f2f2f2;
@@ -73,56 +50,83 @@ table {
       }
     }
   }
+  tr {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    th,
+    td {
+      height: 50px;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      min-width: 100px;
+      max-width: 300px;
+      width: 14%;
+      font-size: 14px;
+      text-align: left;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-all;
+    }
+    th {
+      background-color: $primary;
+      color: white;
+    }
+  }
+
   img {
-    max-width: 50px;
+    max-width: 80%;
   }
 }
 
 @media screen and (max-width: $md) {
   table {
-    min-width: calc(100% - 180px);
-    th,
-    td {
-      min-width: unset;
-      max-width: unset;
-      font-size: 12px;
-    }
+    min-width: 80%;
     thead {
       display: none;
     }
     tbody tr {
-      border-bottom: 2px solid black;
+      border-bottom: 1px solid gray;
       display: flex;
       flex-direction: column;
       margin: 4px 0;
       td {
-        margin: 0;
+        min-width: unset;
+        max-width: unset;
         width: 100%;
         height: auto;
-        img {
-          max-width: 50%;
-        }
-      }
-      td:last-child {
-        @include flex(space-around, center, row);
-        a {
-          width: auto;
-          margin: 0;
-          button {
+        &:last-child {
+          @include flex(space-around, center, row);
+          a {
             width: auto;
-            padding: 4px;
+            margin: 0;
+            button {
+              width: auto;
+              padding: 4px;
+            }
           }
+        }
+        img {
+          max-width: 100%;
         }
       }
     }
   }
 }
+
 @media screen and (max-width: $sm) {
   table {
+    margin: 10px auto;
     position: static;
-    max-width: 98%;
+    max-width: 100%;
     tbody {
-      max-height: calc(100vh - 142px);
+      max-height: 100%;
     }
+  }
+}
+@media screen and (max-width: $sm) {
+  table {
+    margin: 15px;
   }
 }

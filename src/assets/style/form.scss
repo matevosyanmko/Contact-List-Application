@@ -1,8 +1,8 @@
 .layout {
   background: #ffffff;
   @include shadow();
-  min-width: 200px;
-  max-width: 80%;
+  min-width: 300px;
+  max-width: 50%;
   margin: 20px auto;
   @include flex(center, center, column);
   padding: 16px 32px;
@@ -19,7 +19,6 @@
     }
     .inline_radio {
       @include flex(flex-start, center, row);
-
       p {
         @include flex(flex-start, center, row);
         margin: 5px;
@@ -39,7 +38,7 @@
   }
 }
 @media screen and (max-width: $sm) {
-  .Form {
-    max-width: 80%;
+  .layout {
+    max-width: 90%;
   }
 }

@@ -1,16 +1,16 @@
 // global requests class
-import Request from "../request";
+import Request from '../request';
 
 // create request
-const DeleteData = api => {
+const DeleteData = (api) => {
   return Request.delete(api);
 };
 
 // action creator
-export const ActionCreatorDELETE = api => {
-  return dispatch => {
+export const ActionCreatorDELETE = (api) => {
+  return (dispatch) => {
     return DeleteData(api)
-      .then(resp => resp.json())
-      .then(data => data);
+      .then((resp) => resp.json())
+      .then((data) => data);
   };
 };

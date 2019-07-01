@@ -2,28 +2,30 @@ import React, { Component } from 'react';
 // redux module
 import { connect } from 'react-redux';
 import { ActionCreatorPOST } from '../store/ActionCreators/actionCreatorPOST';
+import { ActionCreator } from '../store/ActionCreators/actionCreator';
 import { ContactCreate } from '../store/endPoints';
+import { ADD_CONTACT } from '../store/actionTypes';
 //
 import { toast } from 'react-toastify';
-import { Label, GetValueByName } from '../utils';
+import { Label, CollectData } from '../utils';
+import { ContactData } from '../constants/data';
 
 class AddContact extends Component {
-  submit = async (event) => {
+  submit = (event) => {
     event.preventDefault();
     const { dispatch } = this.props;
-    const data = {
-      first_name: GetValueByName('first_name'),
-      last_name: GetValueByName('last_name'),
-      dob: GetValueByName('dob'),
-      email: GetValueByName('email'),
-      gender: GetValueByName('gender'),
-      phone: GetValueByName('phone'),
-      status: GetValueByName('status'),
-      website: GetValueByName('website'),
-      address: GetValueByName('address')
-    };
+    const data = CollectData(ContactData);
     const response = dispatch(ActionCreatorPOST(ContactCreate, data));
-    response.then((data) => data.json()).then((r) => (r._meta.code !== 200 ? toast.error(r.result[0].message) : toast.success(r._meta.message)));
+    response
+      .then((data) => data.json())
+      .then((r) => {
+        if (r._meta.code !== 200) {
+          toast.error(r.result[0].message);
+        } else if (r._meta.code === 200) {
+          toast.success(r._meta.message);
+          dispatch(ActionCreator(ADD_CONTACT, r));
+        }
+      });
   };
   render() {
     return (

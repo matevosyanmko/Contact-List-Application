@@ -18,3 +18,8 @@
     background: $primary;
   }
 }
+@media screen and (max-width: $sm) {
+  .Circle {
+    opacity: 0.5;
+  }
+}

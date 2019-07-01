@@ -26,6 +26,7 @@ class ContactsList extends PureComponent {
     this.getContacts();
   }
   static getDerivedStateFromProps = (nextProps, prevState) => {
+    // on new page change
     if (nextProps.match.params.id !== prevState.page) {
       return { page: nextProps.match.params.id };
     } else {
@@ -47,6 +48,7 @@ class ContactsList extends PureComponent {
     // check if data exist or not
     if (!Contacts.find((item) => Number(item.pageNumber) === Number(page))) {
       const response = dispatch(ActionCreatorGET(FindContactsByPage(page), ADD_CONTACT_GROUP));
+      // update page count after every request
       response.then((data) => dispatch(ActionCreator('SET_PAGE_COUNT', data.payload._meta.pageCount)));
     }
   };

@@ -1,3 +1,4 @@
+
 // contacts
 export const ADD_CONTACT = 'ADD_CONTACT';
 export const ADD_CONTACT_GROUP = 'ADD_CONTACT_GROUP';

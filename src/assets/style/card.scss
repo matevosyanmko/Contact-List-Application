@@ -1,16 +1,8 @@
-// card
 .card {
-  background: #fff;
-  @include flex(flex-start, center, column);
-  margin: 20px auto;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  border-radius: 5px; 
-  min-width: 200px;
-  max-width: 600px;
-  padding: 16px;
+  img {
+    max-width: 100%;
+  }
   .card_container {
-    width: 100%;
     h2 {
       text-align: center;
     }

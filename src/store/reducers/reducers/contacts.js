@@ -10,7 +10,7 @@ export default (state = [], action) => {
         return { ...data, list: [...data.list.map((item) => (item.id === payload.id ? { ...item, ...payload } : item))] };
       });
     case ADD_CONTACT:
-      return [...state, { pageNumber: 'custom', list: [payload.result] }];
+      return [...state, { pageNumber: 'lastpage', list: [payload.result] }];
     case DELETE_CONTACT:
       return state.map((data) => {
         return { ...data, list: data.list.filter((item) => item.id !== payload) };

@@ -14,7 +14,7 @@ const store = createStore(
   Store,
   compose(
     applyMiddleware(thunk),
-    // composeWithDevTools()  
+    // composeWithDevTools()
   )
 );
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // redux
 import { connect } from 'react-redux';
 import { ActionCreatorGET } from '../store/ActionCreators/actionCreatorGET';
-import { ActionCreator } from '../store/ActionCreators/actionCreator';
 import { ADD_CONTACT } from '../store/actionTypes';
 import { ContactById } from '../store/endPoints';
 import AddContact from './AddContact';
@@ -15,10 +14,12 @@ class ContactItem extends Component {
     const { Contacts, dispatch, match } = this.props;
     const { id } = match.params;
     if (id !== 'new') {
+      // check in item exists in store ,or make request
       const CurrentContact = await GetItemFromList(Contacts, id);
       if (!CurrentContact) {
         const resp = await dispatch(ActionCreatorGET(ContactById(id), ADD_CONTACT));
         if (resp.payload._meta.code !== 200) {
+          // if item not found in back end ,show page not found
           this.setState({ pageNotFound: true });
         }
       }
@@ -29,9 +30,11 @@ class ContactItem extends Component {
     const { pageNotFound } = this.state;
     const { Contacts, match } = this.props;
     const { id } = match.params;
+
     if (id === 'new') {
       return <AddContact />;
     }
+
     if (pageNotFound) {
       return <PageNotFound />;
     }
@@ -41,7 +44,6 @@ class ContactItem extends Component {
     }
     const { first_name, last_name, dob, email, gender, phone, status, website } = CurrentContact;
     const avatar = CurrentContact._links.avatar.href;
-
     return (
       <div className="card layout">
         <Image src={avatar} />

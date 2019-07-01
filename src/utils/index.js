@@ -1,6 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import Img from 'react-image';
 import Loader from '../assets/images/loader.svg';
+
+const ScrollToTop = ({ children, location: { pathname } }) => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return children;
+};
+export default withRouter(ScrollToTop);
+
+export const CollectData = (list) => {
+  let data = {};
+  list.map((item) => {
+    data = { ...data, [item]: GetValueByName(item) };
+  });
+  return data;
+};
 
 export const GetValueByName = (name) => {
   if (name === 'status' || name === 'gender') {

@@ -10,13 +10,15 @@ import { ActionCreatorGET } from '../store/ActionCreators/actionCreatorGET';
 import { toast } from 'react-toastify';
 import PageNotFound from '../views/PageNotFound';
 // utils
-import { Label, GetValueByName, GetItemFromList, LoaderIcon } from '../utils';
+import { Label, GetItemFromList, CollectData, LoaderIcon } from '../utils';
+import { ContactData } from '../constants/data';
 
 class EditContact extends Component {
   state = { pageNotFound: false };
   componentDidMount = async () => {
     const { Contacts, dispatch, match } = this.props;
     const { id } = match.params;
+    // check in item exists in store ,or make request
     const CurrentContact = await GetItemFromList(Contacts, id);
     if (!CurrentContact) {
       const resp = await dispatch(ActionCreatorGET(ContactById(id), ADD_CONTACT));
@@ -28,31 +30,24 @@ class EditContact extends Component {
 
   submit = (event) => {
     event.preventDefault();
-    const data = {
-      first_name: GetValueByName('first_name'),
-      last_name: GetValueByName('last_name'),
-      dob: GetValueByName('dob'),
-      email: GetValueByName('email'),
-      gender: GetValueByName('gender'),
-      phone: GetValueByName('phone'),
-      status: GetValueByName('status'),
-      website: GetValueByName('website'),
-      address: GetValueByName('address')
-    };
-    console.log(data);
     const { dispatch, match } = this.props;
     const { id } = match.params;
-    const repsonse = dispatch(ActionCreatorPUT(ContactById(id), data));
-    repsonse
-      .then((data) => data.json())
-      .then((e) => {
-        if (e._meta.code === 200) {
-          dispatch(ActionCreator(UPDATE_CONTACT, e.result));
-          toast.success(e._meta.message);
-        } else {
-          toast.error(e._meta.message);
-        }
-      });
+    const data = CollectData(ContactData);
+    try {
+      const repsonse = dispatch(ActionCreatorPUT(ContactById(id), data));
+      repsonse
+        .then((data) => data.json())
+        .then((e) => {
+          if (e._meta.code === 200) {
+            dispatch(ActionCreator(UPDATE_CONTACT, e.result));
+            toast.success(e._meta.message);
+          } else {
+            toast.error(e._meta.message);
+          }
+        });
+    } catch (err) {
+      console.error(err);
+    }
   };
   render() {
     const { Contacts, match } = this.props;
@@ -61,7 +56,7 @@ class EditContact extends Component {
     if (pageNotFound) {
       return <PageNotFound />;
     }
-    // check contact item in strore
+    // check contact item in store
     const CurrentContact = GetItemFromList(Contacts, id);
     if (!CurrentContact) {
       return LoaderIcon;

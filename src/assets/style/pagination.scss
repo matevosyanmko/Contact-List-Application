@@ -25,13 +25,9 @@
 }
 @media screen and (max-width: $sm) {
   .pagination {
-    position: static;
-    height: 75px;
-    width: 140px;
-    @include flex(space-around);
     .pagination_next,
     .pagination_prev {
-      position: static;
+      opacity: 0.5;
     }
   }
 }
